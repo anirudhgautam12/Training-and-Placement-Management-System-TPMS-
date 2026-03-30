@@ -5,6 +5,12 @@ const userSchema = new mongoose.Schema({
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
   role: { type: String, enum: ['admin', 'student'], default: 'student' },
+  phone: String,
+  branch: String,
+  cgpa: Number,
+  skills: [String],
+  profilePicUrl: String,
+  resumeUrl: String,
   course: String,
   year: Number,
   createdAt: { type: Date, default: Date.now }
