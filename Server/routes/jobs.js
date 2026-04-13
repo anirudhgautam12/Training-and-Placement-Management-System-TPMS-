@@ -1,13 +1,27 @@
 const express = require('express');
 const Job = require('../models/Job');
-const { authMiddleware, adminMiddleware } = require('../middleware/auth');
+const User = require('../models/User');
+const Company = require('../models/Company');
+const { authMiddleware, adminMiddleware, adminOrCompanyMiddleware } = require('../middleware/auth');
 
 const router = express.Router();
 
-// Create job posting (admin only)
-router.post('/', authMiddleware, adminMiddleware, async (req, res) => {
+// Create job posting (admin or company)
+router.post('/', authMiddleware, adminOrCompanyMiddleware, async (req, res) => {
   try {
     const data = { ...req.body, postedBy: req.user.id };
+    
+    // Dynamically inject the company object reference if role is recruiter
+    if (req.user.role === 'company') {
+      const user = await User.findById(req.user.id);
+      let comp = await Company.findOne({ name: user.name });
+      if (!comp) {
+        comp = new Company({ name: user.name });
+        await comp.save();
+      }
+      data.company = comp._id;
+    }
+
     const job = new Job(data);
     await job.save();
     res.status(201).json(job);

@@ -1,0 +1,38 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700;800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-gray-50 text-slate-900 font-sans antialiased overflow-x-hidden selection:bg-primary-200 selection:text-primary-900;
+  }
+}
+
+@layer components {
+  /* Premium CTA Button */
+  .btn-primary {
+    @apply relative inline-flex items-center justify-center px-6 py-2.5 bg-gradient-to-r from-primary-500 to-accent-600 text-white font-medium rounded-xl shadow-glass transition-all duration-300 hover:shadow-glass-glow hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 overflow-hidden;
+  }
+  
+  /* Outline subtle Button */
+  .btn-secondary {
+    @apply inline-flex items-center justify-center px-6 py-2.5 bg-white/80 backdrop-blur-sm text-slate-700 border border-slate-200 font-medium rounded-xl shadow-glass-sm transition-all duration-300 hover:bg-slate-50 hover:text-slate-900 hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2;
+  }
+  
+  /* Sleek modern inputs */
+  .input-field {
+    @apply w-full px-4 py-3 bg-slate-50/50 backdrop-blur-sm border border-slate-200 rounded-xl text-slate-800 placeholder-slate-400 focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500 focus:bg-white outline-none transition-all duration-300 shadow-sm hover:border-slate-300;
+  }
+
+  /* Glass Card */
+  .glass-card {
+    @apply bg-white/70 backdrop-blur-lg border border-white/40 shadow-glass rounded-2xl overflow-hidden relative;
+  }
+
+  /* Default Card upgrade */
+  .card {
+    @apply bg-white rounded-2xl shadow-glass-sm border border-slate-100 overflow-hidden transition-all duration-300 hover:shadow-glass hover:border-primary-100;
+  }
+}

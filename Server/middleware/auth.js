@@ -17,4 +17,11 @@ const adminMiddleware = (req, res, next) => {
   next();
 };
 
-module.exports = { authMiddleware, adminMiddleware };
+const adminOrCompanyMiddleware = (req, res, next) => {
+  if (req.user.role !== 'admin' && req.user.role !== 'company') {
+    return res.status(403).json({ error: 'Admin or Company access required' });
+  }
+  next();
+};
+
+module.exports = { authMiddleware, adminMiddleware, adminOrCompanyMiddleware };
