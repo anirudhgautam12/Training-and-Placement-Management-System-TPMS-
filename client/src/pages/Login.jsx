@@ -26,12 +26,12 @@ const Login = () => {
       login(token, user);
       toast.success('Welcome back!');
       
-      if (from === '/') {
-        if (user.role === 'admin') navigate('/admin');
-        else if (user.role === 'company') navigate('/company');
-        else navigate('/student');
+      if (user.role === 'admin') {
+        navigate('/admin');
+      } else if (user.role === 'company') {
+        navigate('/company');
       } else {
-        navigate(from, { replace: true });
+        navigate('/student');
       }
     } catch (error) {
       toast.error(error.response?.data?.error || 'Failed to log in');

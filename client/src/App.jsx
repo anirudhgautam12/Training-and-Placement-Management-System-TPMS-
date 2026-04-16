@@ -22,6 +22,9 @@ import MyApplications from './pages/MyApplications';
 import StudentProfile from './pages/StudentProfile';
 import CompanyDashboard from './pages/CompanyDashboard';
 import PostJob from './pages/PostJob';
+import CompanyApplicants from './pages/CompanyApplicants';
+import AdminStudents from './pages/AdminStudents';
+import AdminCompanies from './pages/AdminCompanies';
 
 // Mock Unauth / NotFound
 const Unauthorized = () => <div className="p-8 text-center"><h1 className="text-3xl font-bold">Unauthorized Access</h1></div>;
@@ -47,8 +50,8 @@ const App = () => {
                 {/* Admin Routes */}
                 <Route element={<RoleBasedRoute allowedRoles={['admin']} />}>
                   <Route path="/admin" element={<AdminDashboard />} />
-                  <Route path="/admin/companies" element={<div className="p-4">Manage Companies (Mock)</div>} />
-                  <Route path="/admin/students" element={<div className="p-4">Manage Students (Mock)</div>} />
+                  <Route path="/admin/companies" element={<AdminCompanies />} />
+                  <Route path="/admin/students" element={<AdminStudents />} />
                 </Route>
 
                 {/* Student Routes */}
@@ -63,7 +66,7 @@ const App = () => {
                 <Route element={<RoleBasedRoute allowedRoles={['company']} />}>
                   <Route path="/company" element={<CompanyDashboard />} />
                   <Route path="/company/post-job" element={<PostJob />} />
-                  <Route path="/company/applicants" element={<div className="p-4">Applicants List (Mock)</div>} />
+                  <Route path="/company/applicants" element={<CompanyApplicants />} />
                 </Route>
                 
               </Route>

@@ -3,7 +3,7 @@ const multer = require('multer');
 const cloudinary = require('cloudinary').v2;
 const Application = require('../models/Application');
 const Job = require('../models/Job');
-const { authMiddleware, adminMiddleware } = require('../middleware/auth');
+const { authMiddleware, adminMiddleware, adminOrCompanyMiddleware } = require('../middleware/auth');
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -75,12 +75,36 @@ router.get('/', authMiddleware, adminMiddleware, async (req, res) => {
   }
 });
 
-// Admin update application status
-router.put('/:id/status', authMiddleware, adminMiddleware, async (req, res) => {
+// Company can view applications for their jobs
+router.get('/company', authMiddleware, adminOrCompanyMiddleware, async (req, res) => {
+  try {
+    const jobs = await Job.find({ postedBy: req.user.id }).select('_id');
+    const jobIds = jobs.map(j => j._id);
+    const applications = await Application.find({ job: { $in: jobIds } })
+      .populate('student', 'name email phone branch cgpa')
+      .populate('job');
+    res.json(applications);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// Update application status
+router.put('/:id/status', authMiddleware, adminOrCompanyMiddleware, async (req, res) => {
   try {
     const { status, remarks } = req.body;
-    const application = await Application.findByIdAndUpdate(req.params.id, { status, remarks }, { new: true });
+    const application = await Application.findById(req.params.id).populate('job');
     if (!application) return res.status(404).json({ error: 'Application not found' });
+    
+    // If not admin, check if the job was posted by the requesting company
+    if (req.user.role !== 'admin' && application.job.postedBy.toString() !== req.user.id) {
+      return res.status(403).json({ error: 'Not authorized to update this application' });
+    }
+
+    application.status = status;
+    application.remarks = remarks;
+    await application.save();
+    
     res.json(application);
   } catch (error) {
     res.status(500).json({ error: error.message });
