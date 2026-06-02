@@ -2,7 +2,7 @@
 
 A full-stack web application built using the MERN stack to streamline the training and placement process for students, companies, and administrators.
 
-🔗 **Live Demo:** https://training-and-placement-management-system-tpms-gufed972y.vercel.app/
+🔗 **Live Demo:** https://training-and-placement-management-s.vercel.app/
 
 ---
 
