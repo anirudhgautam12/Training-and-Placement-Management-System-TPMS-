@@ -132,7 +132,7 @@ npm run dev
 
 * Hosted on **Vercel**
 * Live URL:
-  👉 https://training-and-placement-management-system-tpms-gufed972y.vercel.app/
+  👉 https://training-and-placement-management-s.vercel.app/
 
 ### 🔹 Backend
 
